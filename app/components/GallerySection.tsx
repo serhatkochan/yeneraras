@@ -96,7 +96,7 @@ const GallerySection = () => {
 
     const handleTouchEnd = () => {
       // Mobilde biraz gecikme ile kapat
-      setTimeout(() => setIsVisible(false), 2000);
+      setTimeout(() => setIsVisible(false), 300);
     };
 
     return (
