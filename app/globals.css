@@ -1,26 +1,224 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #1173d4;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-public-sans);
+  --color-primary: var(--primary-color);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-public-sans), "Public Sans", sans-serif;
 }
+  
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Text shadow utility */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Custom animations - Framer Motion kullanıldığı için bu stiller artık gerekli değil */
+
+/* Navigation link styles */
+.nav-link {
+  position: relative;
+  color: #E5E7EB;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #FFFFFF;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -4px;
+  left: 50%;
+  background-color: #FFFFFF;
+  transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+  left: 0;
+  opacity: 1;
+}
+
+/* Play button styles */
+.play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.group:hover .play-button {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* News card styles */
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(31, 31, 31, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(20, 20, 20, 0.4) 100%);
+  border: 1px solid rgba(42, 42, 42, 0.5);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.news-card:hover {
+  background: linear-gradient(135deg, rgba(36, 36, 36, 0.9) 0%, rgba(31, 31, 31, 0.7) 50%, rgba(26, 26, 26, 0.5) 100%);
+  transform: translateY(-4px);
+  border-color: rgba(68, 68, 68, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+}
+
+/* Story card styles */
+.story-card {
+  background: linear-gradient(135deg, rgba(31, 31, 31, 0.8) 0%, rgba(26, 26, 26, 0.6) 50%, rgba(20, 20, 20, 0.4) 100%);
+  border: 1px solid rgba(42, 42, 42, 0.5);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.story-card:hover {
+  background: linear-gradient(135deg, rgba(36, 36, 36, 0.9) 0%, rgba(31, 31, 31, 0.7) 50%, rgba(26, 26, 26, 0.5) 100%);
+  transform: translateY(-2px);
+  border-color: rgba(68, 68, 68, 0.8);
+  box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.3), 0 6px 8px -6px rgba(0, 0, 0, 0.2);
+}
+
+/* Carousel styles */
+.carousel-container {
+  position: relative;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 1.5rem;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  margin-right: 1.5rem;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(30, 30, 30, 0.8);
+  color: white;
+  border: 1px solid #444;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.carousel-button:hover {
+  background-color: rgba(229, 231, 235, 0.1);
+  border-color: var(--primary-color);
+}
+
+.carousel-button.prev {
+  left: -24px;
+}
+
+.carousel-button.next {
+  right: -24px;
+}
+
+/* Hide scrollbar for gallery */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for modern gallery */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tüm resimler için user-select: none */
+img {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
