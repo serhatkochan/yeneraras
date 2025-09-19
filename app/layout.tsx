@@ -9,9 +9,9 @@ const publicSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Yener Aras - Paralimpik Sporcu | 2028 Los Angeles Paralimpik Oyunları",
+  title: "Yener Aras - Milli Sporcu | 2028 Los Angeles Paralimpik Oyunları",
   description: "Milli sporcu Yener Aras'ın ilham veren hikayesi, hedefleri ve başarıları. 2028 Los Angeles Paralimpik Oyunları'na hazırlanan azimli sporcu. Azmin ve inancın engelleri nasıl aştığını gösteren gerçek hikaye.",
-  keywords: "Yener Aras, paralimpik, sporcu, güreş, tekerlekli sandalye basketbolu, milli sporcu, engelsiz spor, 2028 paralimpik, Los Angeles, azim, ilham, spor hikayesi, Kars, Kocaeli, Darıca, Golden Body Spor Salonu",
+  keywords: "Yener Aras, milli sporcu, paralimpik, sporcu, güreş, tekerlekli sandalye basketbolu, engelsiz spor, 2028 paralimpik, Los Angeles, azim, ilham, spor hikayesi, Kars, Kocaeli, Darıca, Golden Body Spor Salonu, Türkiye milli takımı",
   authors: [{ name: "Yener Aras" }],
   creator: "Yener Aras",
   publisher: "Yener Aras",
@@ -27,24 +27,24 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Yener Aras - Paralimpik Sporcu",
+    title: "Yener Aras - Milli Sporcu",
     description: "Milli sporcu Yener Aras'ın ilham veren hikayesi ve 2028 Los Angeles Paralimpik Oyunları hedefi",
     type: "website",
     locale: "tr_TR",
     url: "https://yeneraras.com",
-    siteName: "Yener Aras - Paralimpik Sporcu",
+    siteName: "Yener Aras - Milli Sporcu",
     images: [
       {
         url: "/images/header-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Yener Aras - Paralimpik Sporcu",
+        alt: "Yener Aras - Milli Sporcu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yener Aras - Paralimpik Sporcu",
+    title: "Yener Aras - Milli Sporcu",
     description: "Milli sporcu Yener Aras'ın ilham veren hikayesi ve 2028 Los Angeles Paralimpik Oyunları hedefi",
     images: ["/images/header-image.jpg"],
   },
@@ -70,7 +70,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Yener Aras",
-              "jobTitle": "Paralimpik Sporcu",
+              "jobTitle": "Milli Sporcu",
               "description": "Milli sporcu Yener Aras, 2028 Los Angeles Paralimpik Oyunları'na hazırlanan azimli sporcu",
               "url": "https://yeneraras.com",
               "image": "https://yeneraras.com/images/header-image.jpg",
