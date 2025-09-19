@@ -1,59 +1,18 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const GallerySection = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoSeeking, setIsVideoSeeking] = useState(false);
 
   // Random rotation değerleri
   const possibleRotations = [1.3, -1.3, 1.3, -1.3, 1.3, -1.3];
-
-  // Resim açıklamaları - siz buraya kendi açıklamalarınızı ekleyebilirsiniz
-  const imageDescriptions: { [key: number]: string } = {
-    1: "1. resim açıklaması",
-    2: "2. resim açıklaması",
-    3: "3. resim açıklaması",
-    4: "4. resim açıklaması",
-    5: "5. resim açıklaması",
-    6: "6. resim açıklaması",
-    7: "7. resim açıklaması",
-    8: "8. resim açıklaması",
-    9: "9. resim açıklaması",
-    10: "10. resim açıklaması",
-    11: "11. resim açıklaması",
-    12: "12. resim açıklaması",
-    13: "13. resim açıklaması",
-    14: "14. resim açıklaması",
-    15: "15. resim açıklaması",
-    16: "16. resim açıklaması",
-    17: "17. resim açıklaması",
-    18: "18. resim açıklaması",
-    19: "19. resim açıklaması",
-    20: "20. resim açıklaması",
-    21: "21. resim açıklaması",
-    22: "22. resim açıklaması",
-    23: "23. resim açıklaması",
-    24: "24. resim açıklaması",
-    25: "25. resim açıklaması",
-    26: "26. resim açıklaması",
-    27: "27. resim açıklaması",
-    28: "28. resim açıklaması",
-    29: "29. resim açıklaması",
-    30: "30. resim açıklaması",
-    31: "31. resim açıklaması",
-    32: "32. resim açıklaması",
-    33: "33. resim açıklaması",
-    34: "34. resim açıklaması",
-    35: "35. resim açıklaması",
-    36: "36. resim açıklaması",
-    37: "37. resim açıklaması",
-    38: "38. resim açıklaması",
-    39: "39. resim açıklaması"
-  };
 
   // Drag & Drop functionality
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -86,19 +45,34 @@ const GallerySection = () => {
     };
   }, [handleMouseMove, handleMouseUp]);
 
+  // Video event handlers
+  const handleVideoPlay = () => {
+    setIsVideoPlaying(true);
+  };
+
+  const handleVideoPause = () => {
+    // Sadece gerçekten duraklatıldığında object-cover'a geç
+    if (!isVideoSeeking) {
+      setIsVideoPlaying(false);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsVideoPlaying(false);
+  };
+
+  const handleVideoSeeking = () => {
+    setIsVideoSeeking(true);
+  };
+
+  const handleVideoSeeked = () => {
+    setIsVideoSeeking(false);
+    // Seek işlemi bittikten sonra video hala oynatılıyorsa object-contain'da kalsın
+    // Eğer video duraklatılmışsa object-cover'a geçsin
+  };
+
   // Photo Component
   const Photo = ({ imageNumber, idx }: { imageNumber: number; idx: number }) => {
-    const [isVisible, setIsVisible] = useState(false);
-
-    const handleTouchStart = () => {
-      setIsVisible(true);
-    };
-
-    const handleTouchEnd = () => {
-      // Mobilde biraz gecikme ile kapat
-      setTimeout(() => setIsVisible(false), 300);
-    };
-
     return (
       <motion.div
         key={imageNumber}
@@ -112,10 +86,6 @@ const GallerySection = () => {
           rotate: 0, 
           transition: { duration: 0.2 } 
         }}
-        onHoverStart={() => setIsVisible(true)}
-        onHoverEnd={() => setIsVisible(false)}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         className="relative aspect-[4/5] w-44 flex-none overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 shadow-lg select-none"
       >
         <img
@@ -123,20 +93,6 @@ const GallerySection = () => {
           alt={`Yener Aras - Resim ${imageNumber}`}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <AnimatePresence>
-          {isVisible && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.2 } }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 w-full bg-gradient-to-t from-black/75 via-black/0 flex items-end"
-            >
-              <h3 className="px-3 py-2 font-mono text-xs font-bold text-white bg-gradient-to-r from-black/80 to-black/60 rounded">
-                {imageDescriptions[imageNumber] || `Resim ${imageNumber}`}
-              </h3>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
     );
   };
@@ -157,6 +113,38 @@ const GallerySection = () => {
         <h1 className="text-white tracking-tight text-4xl md:text-5xl font-bold leading-tight">
           Galeri
         </h1>
+      </motion.div>
+
+      {/* Video Section */}
+      <motion.div 
+        className="mb-16 px-4"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div className="max-w-4xl mx-auto">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-800 to-zinc-900 shadow-2xl">
+            <video
+              className={`w-full h-full transition-all duration-300 ${
+                isVideoPlaying ? 'object-contain' : 'object-cover'
+              }`}
+              controls
+              preload="metadata"
+              poster="/images/video-poster.jpg"
+              playsInline
+              muted
+              onPlay={handleVideoPlay}
+              onPause={handleVideoPause}
+              onEnded={handleVideoEnded}
+            >
+              <source src="/images/video.mp4" type="video/mp4" />
+              Tarayıcınız video oynatmayı desteklemiyor.
+            </video>
+            {/* Video overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+          </div>
+        </div>
       </motion.div>
       
       {/* Galeri Container - Mobilde tam ekran */}

@@ -43,3 +43,6 @@ next-env.d.ts
 .cursor/
 .vscode/
 package-lock.json
+
+
+.idea/
