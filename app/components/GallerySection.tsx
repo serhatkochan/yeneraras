@@ -90,6 +90,15 @@ const GallerySection = () => {
   const Photo = ({ imageNumber, idx }: { imageNumber: number; idx: number }) => {
     const [isVisible, setIsVisible] = useState(false);
 
+    const handleTouchStart = () => {
+      setIsVisible(true);
+    };
+
+    const handleTouchEnd = () => {
+      // Mobilde biraz gecikme ile kapat
+      setTimeout(() => setIsVisible(false), 2000);
+    };
+
     return (
       <motion.div
         key={imageNumber}
@@ -105,6 +114,8 @@ const GallerySection = () => {
         }}
         onHoverStart={() => setIsVisible(true)}
         onHoverEnd={() => setIsVisible(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         className="relative aspect-[4/5] w-44 flex-none overflow-hidden rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 shadow-lg select-none"
       >
         <img
